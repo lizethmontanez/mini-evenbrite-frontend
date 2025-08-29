@@ -4,16 +4,16 @@ import * as api from '../services/api'
 
 const useAuth = create(
     persist(
-        (set, get) =>({
+        (set, get) => ({
             user: null,
             token: null,
             refreshToken: null,
 
             isAuthenticated: () => Boolean(get().token),
 
-            login: async (credentials) =>{
+            login: async (credentials) => {
                 const res = await api.login(credentials)
-                set({ token: res?.accessToken, refreshToken: res?.refreshToken, user: res?.user})
+                set({ token: res?.accessToken, refreshToken: res?.refreshToken, user: res?.user })
                 return res
             },
 
@@ -25,16 +25,15 @@ const useAuth = create(
 
             loadMe: async () => {
                 const res = await api.me()
-                if (res?.user) set({user: res?.user})
+                if (res?.user) set({ user: res.user })
                 return res
             },
 
-            logout: () => ({ token: null, refreshToken: null, user: null}),
-
+            logout: () => set({ token: null, refreshToken: null, user: null }),
         }),
         {
             name: 'quickpass-auth',
-            partialize: (s) => ({token: s.token, refreshToken: s.refreshToken, user: s.user})
+            partialize: (s) => ({ token: s.token, refreshToken: s.refreshToken, user: s.user })
         }
     )
 )
