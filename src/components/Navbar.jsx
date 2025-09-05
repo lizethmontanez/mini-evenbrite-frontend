@@ -1,5 +1,5 @@
-import { useNavigate, Link } from "react-router-dom"
-import useAuth from "../hooks/useAuth"
+import { Link, useNavigate } from 'react-router-dom'
+import useAuth from '../hooks/useAuth'
 
 export default function Navbar() {
     const { isAuthenticated, user, logout } = useAuth()
@@ -17,6 +17,10 @@ export default function Navbar() {
 
                     {isAuthenticated() && hasRole('organizer', 'admin') && (
                         <Link to="/events/new" className="btn btn-primary">Crear evento</Link>
+                    )}
+
+                    {isAuthenticated() && hasRole('organizer', 'staff', 'admin') && (
+                        <Link to="/scan" className="btn btn-primary">Escanear</Link>
                     )}
 
                     {isAuthenticated() ? (

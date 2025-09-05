@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios'
 import useAuth from '../hooks/useAuth'
 
 const http = axios.create({
@@ -6,16 +6,18 @@ const http = axios.create({
     timeout: Number(import.meta.env.VITE_API_TIMEOUT || 15000)
 })
 
-http.interceptors.request.use((config)=>{
-    const {token} = useAuth.getState()
-    if (token) config.headers.Authorization = `Baerer ${token}`
+http.interceptors.request.use((config) => {
+    const { token } = useAuth.getState()
+    if (token) config.headers.Authorization = `Bearer ${token}`
     return config
 })
 
-http.interceptors.response.use((res)=> res,
+http.interceptors.response.use(
+    (res) => res,
     (error) => {
-    const message = error?.response?.data?.message || error?.message || 'Error de red'
-    return Promise.reject(new Error(message))
-})
+        const message = error?.response?.data?.message || error?.message || 'Error de red'
+        return Promise.reject(new Error(message))
+    }
+)
 
 export default http
