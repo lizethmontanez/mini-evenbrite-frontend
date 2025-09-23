@@ -23,7 +23,14 @@ export default function CreateEvent() {
             const key = name.split('.')[1]
             setForm((f) => ({ ...f, seatMap: { ...f.seatMap, [key]: key === 'type' ? value : Number(value) } }))
         } else {
-            setForm((f) => ({ ...f, [name]: type === 'checkbox' ? checked : value }))
+            setForm((f) => ({
+                ...f,
+                [name]: type === 'checkbox'
+                    ? checked
+                    : type === 'number'
+                        ? Number(value)   // 👈 convierte a número
+                        : value
+            }))
         }
     }
 
@@ -31,9 +38,9 @@ export default function CreateEvent() {
         e.preventDefault()
         setLoading(true); setError(null); setOk(null)
         try {
-        const payload = { ...form, date: new Date(form.date).toISOString() }
-        console.log("Payload que estoy enviando al backend:", payload)  // 👈 aquí logueamos
-        const res = await createEvent(payload)
+            const payload = { ...form, date: new Date(form.date).toISOString() }
+            console.log("Payload que estoy enviando al backend:", payload)  // 👈 aquí logueamos
+            const res = await createEvent(payload)
             setOk(`Evento creado: ${res?.item?.title} (${res?.item?._id})`)
         } catch (e2) {
             setError(e2.message)
