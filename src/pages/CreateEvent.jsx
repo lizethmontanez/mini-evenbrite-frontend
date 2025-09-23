@@ -21,14 +21,17 @@ export default function CreateEvent() {
         const { name, value, type, checked } = e.target
         if (name.startsWith('seatMap.')) {
             const key = name.split('.')[1]
-            setForm((f) => ({ ...f, seatMap: { ...f.seatMap, [key]: key === 'type' ? value : Number(value) } }))
+            setForm((f) => ({
+                ...f,
+                seatMap: { ...f.seatMap, [key]: key === 'type' ? value : Number(value) }
+            }))
         } else {
             setForm((f) => ({
                 ...f,
                 [name]: type === 'checkbox'
                     ? checked
                     : type === 'number'
-                        ? Number(value)   // 👈 convierte a número
+                        ? Number(value)
                         : value
             }))
         }
@@ -36,19 +39,23 @@ export default function CreateEvent() {
 
     const submit = async (e) => {
         e.preventDefault()
-        setLoading(true); setError(null); setOk(null)
+        setLoading(true)
+        setError(null)
+        setOk(null)
+
         try {
             const payload = { ...form, date: new Date(form.date).toISOString() }
-            console.log("Payload que estoy enviando al backend:", payload)  // 👈 aquí logueamos
+            console.log("Payload que estoy enviando al backend:", payload)
+
             const res = await createEvent(payload)
-            setOk(`Evento creado: ${res?.item?.title} (${res?.item?._id})`)
+            setOk(`Evento creado: ${res?.item?.title || payload.title} (${res?.item?._id || 'sin ID'})`)
         } catch (e2) {
-            setError(e2.message)
+            console.error("Error al crear evento:", e2)
+            setError(e2.message || "Error desconocido")
         } finally {
             setLoading(false)
         }
     }
-
 
     return (
         <div className="max-w-2xl mx-auto">

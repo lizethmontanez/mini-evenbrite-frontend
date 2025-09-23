@@ -26,7 +26,7 @@ export async function getEvent(id) {
 }
 
 export async function createEvent(payload) {
-    const { data } = await http.post('/events', { item: payload })
+    const { data } = await http.post('/events', payload)
     return data
 }
 
