@@ -31,8 +31,9 @@ export default function CreateEvent() {
         e.preventDefault()
         setLoading(true); setError(null); setOk(null)
         try {
-            const payload = { ...form, date: new Date(form.date).toISOString() }
-            const res = await createEvent(payload)
+        const payload = { ...form, date: new Date(form.date).toISOString() }
+        console.log("Payload que estoy enviando al backend:", payload)  // 👈 aquí logueamos
+        const res = await createEvent(payload)
             setOk(`Evento creado: ${res?.item?.title} (${res?.item?._id})`)
         } catch (e2) {
             setError(e2.message)
