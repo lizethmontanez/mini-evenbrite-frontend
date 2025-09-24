@@ -5,6 +5,7 @@ export default function Navbar() {
     const { isAuthenticated, user, logout } = useAuth()
     const navigate = useNavigate()
     const hasRole = (...roles) => roles.includes(user?.role)
+
     return (
         <header className="border-b border-slate-200 dark:border-slate-800">
             <div className="container-app py-4 flex items-center justify-between">
@@ -14,6 +15,10 @@ export default function Navbar() {
 
                 <nav className="flex items-center gap-3">
                     <Link to='/events' className='btn'>Eventos</Link>
+
+                    {isAuthenticated() && (
+                        <Link to="/tickets" className="btn">Mis Tickets</Link>
+                    )}
 
                     {isAuthenticated() && hasRole('organizer', 'admin') && (
                         <Link to="/events/new" className="btn btn-primary">Crear evento</Link>

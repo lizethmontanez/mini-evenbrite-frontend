@@ -1,5 +1,5 @@
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import Navbar from './components/Navbar'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -11,6 +11,7 @@ import NotFound from './pages/NotFound'
 import ProtectedRoute from './components/ProtectedRoute'
 import useAuth from './hooks/useAuth'
 import useLastVisited from './hooks/useLastVisited'
+import MyTickets from './pages/MyTickets'
 
 export default function App() {
   const { isAuthenticated, user } = useAuth()
@@ -47,6 +48,7 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+
           <Route
             path='/scan'
             element={
@@ -55,6 +57,17 @@ export default function App() {
               </ProtectedRoute>
             }
           />
+
+          {}
+          <Route
+            path='/tickets'
+            element={
+              <ProtectedRoute>
+                {isAuthenticated() ? <MyTickets /> : <NotFound />}
+              </ProtectedRoute>
+            }
+          />
+
           <Route path='*' element={<NotFound />} />
         </Routes>
       </main>

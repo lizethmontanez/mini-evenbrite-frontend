@@ -50,3 +50,8 @@ export async function getOccupiedSeats(eventId) {
         return { occupied: [] }
     }
 }
+
+export async function getMyTickets() {
+    const { data } = await http.get('/tickets/mine')
+    return data
+}
